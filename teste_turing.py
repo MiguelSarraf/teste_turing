@@ -78,6 +78,9 @@ def classifica_imagens(imagens):
 	del rede, BA19_antigo, entrada, classe
 	return saidas
 
+NOMES=["Miguel", "Arthur", "Heitor", "Theo", "Davi", "Helena", "Alice", "Laura", "Valentina", "Heloísa"]
+SOBRENOMES=["Silva", "Santos", "Oliveira", "Souza", "Rodrigues", "Ferreira", "Alves", "Pereira", "Lima", "Gomes"]
+
 if 'estado' not in st.session_state:
     st.session_state.estado = 'inicio'
 
@@ -86,16 +89,17 @@ st.title('Teste de Turing')
 if st.session_state.estado=='inicio':
 	st.subheader("Como funciona o Teste?")
 	st.markdown("Este é um jogo para dois jogadores que implementa um Teste de Turing simples.")
-	st.markdown("Primeiro um dos jogadores, que será o competidor da máquina, deverá olhar 12 imagens e identificar qual número está escrito.")
-	st.markdown("Em seguida, o segundo jogador, que será o  aplicador do teste,"+
-				" verá as imagens e as classificações dadas pelo primeiro jogador e pelo algoritmo e deverá tentar identificar qual é a máquina.")
+	st.markdown("Primeiro um dos jogadores, que poderá estar competindo com uma máquina e/ou com outra pessas,"+
+							" deverá olhar 12 imagens e identificar qual número está escrito.")
+	st.markdown("Em seguida, o segundo jogador, que será o  aplicador do teste, verá as imagens e as classificações dadas pelos"+
+							" jogadores (que podem ser até 4 distintos) e deverá tentar identificar se existe uma máquina entre eles.")
 	comeca=st.button("Começar o teste")
 
 	tt=st.sidebar.button("O que é o teste de Turing?")
 	modelo=st.sidebar.button("Que modelo é esse?")
 	if comeca or tt or modelo:
 		if comeca:
-			st.session_state.estado='imagens'
+			st.session_state.estado='identifica'
 			st.session_state.imagens=gera_imagens()
 		elif tt:
 			st.session_state.estado="teste"
@@ -170,7 +174,23 @@ if st.session_state.estado=='modelo':
 			st.session_state.estado="inicio"
 		st.experimental_rerun()
 
+if st.session_state.estado=='identifica':
+	st.markdown("Preencha os campos abaixo com as informações do primeiro jogador")
+	nome=st.text_input("Qual seu nome?")
+	idade=st.number_input("Qual sua idade?", 0, 100)
+	comecar=st.button("Começar o jogo")
+	if comecar:
+		st.session_state.jogador=(nome, idade)
+		n,s=np.random.random_integers(0,9,2)
+		i=np.random.randint(10,15)
+		st.session_state.maquina=(NOMES[n]+" "+SOBRENOMES[s], str(i))
+		st.session_state.estado="imagens"
+		st.experimental_rerun()
+
 if st.session_state.estado=='imagens':
+	st.sidebar.markdown("Jogando agora: ")
+	st.sidebar.markdown(st.session_state.jogador[0]+" (você)")
+	st.sidebar.markdown(st.session_state.maquina[0]+" - "+st.session_state.maquina[1]+" anos")
 	st.subheader("Primeira fase do Teste")
 	imagens=st.session_state.imagens
 	st.markdown("Você verá algumas imagens abaixo.")
@@ -195,6 +215,9 @@ if st.session_state.estado=='imagens':
 		st.experimental_rerun()
 
 if st.session_state.estado=='espera':
+	st.sidebar.markdown("Jogando agora: ")
+	st.sidebar.markdown(st.session_state.jogador[0]+" (você)")
+	st.sidebar.markdown(st.session_state.maquina[0]+" - "+st.session_state.maquina[1]+" anos")
 	st.subheader("Trocando de fases")
 	st.markdown("Por favor, deixe que o outro jogador avalie os resultados.")
 	proximo=st.button("Já estou aqui")
@@ -206,9 +229,9 @@ if st.session_state.estado=='avalia':
 	st.subheader("Segunda fase do Teste")
 	st.markdown("Observe as imagens e as classificações feitas para elas.")
 	if st.session_state.reais:
-		st.markdown("Nas duas primeiras linhas abaixo da imagem estão as respostas dos competidores, o primeiro jogador e a máquina. Na terceira linha estão as respostas esperadas como estão no dataset. As respostas de cada competidor estão ou na linha de cima ou na de baixo.")
+		st.markdown(f"Na primeira linha estão as respostas do/da {st.session_state.jogador[0]}, na segunda as da máquina e na terceira estão as respostas esperadas como estão no dataset")
 	else:
-		st.markdown("Nas duas primeiras linhas abaixo da imagem estão as respostas dos competidores, o primeiro jogador e a máquina. As respostas de cada competidor estão ou na linha de cima ou na de baixo.")
+		st.markdown(f"Nas duas primeiras linhas abaixo da imagem estão as respostas dos competidores, {st.session_state.jogador[0]} e {st.session_state.maquina[0]}. As respostas de cada competidor estão ou na linha de cima ou na de baixo.")
 	infos=st.session_state.resultados
 	cols=st.columns(4)
 	for i in range(4):
@@ -222,12 +245,12 @@ if st.session_state.estado=='avalia':
 			cols[i].markdown(f"<div style='text-align: center'> {infos['jog_2'][i*3+j]} </div>", unsafe_allow_html=True)
 			if st.session_state.reais:
 				cols[i].markdown(f"<div style='text-align: center'> {len(infos['imagens'][i*3+j][1])} </div>", unsafe_allow_html=True)
-	st.markdown("Você consegue dizer quais das avaliações foram feitas pela máquina e quais foram feitas pelo outro jogador?")
 	if not st.session_state.reais:
+		st.markdown("Algum dos conjuntos de respostas foi dado por uma máquina?")
 		col1, col2, col3=st.columns(3)
 		cima=col1.button("Sim, a máquina deu as respostas de cima")
 		baixo=col2.button("Sim, a máquina deu as respostas de baixo")
-		nao=col3.button("Não, as respostas estão indistinguíveis")
+		nao=col3.button("Não, ambos competidores são humanos")
 		if cima or baixo or nao:
 			if cima:
 				st.session_state.estado='errado'
@@ -252,7 +275,7 @@ if st.session_state.estado=='correto':
 if st.session_state.estado=='nao':
 	st.subheader("Resultado do Teste")
 	st.markdown("Difícil diferenciar, né?")
-	st.markdown("A máquina passou no teste de Turing...")
+	st.markdown(f"Na verdade {st.session_state.maquina[0]} era uma máquina e ela passou no teste de Turing...")
 	st.markdown("Será o fim da humanidade?")
 
 if st.session_state.estado in ["errado", "correto", "nao"]:
