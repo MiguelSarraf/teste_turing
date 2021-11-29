@@ -58,7 +58,7 @@ class estagio_II(nn.Module):
     return tensor
 
 def gera_imagens():
-	dados=pd.read_pickle("./dados_teste.pkl")
+	dados=pd.read_pickle("./dados_teste_reduzido.pkl")
 	n=len(dados)
 	inds=np.random.random_integers(0,n-1, 12)
 	imagens=[]
