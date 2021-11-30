@@ -247,16 +247,17 @@ if st.session_state.estado=='avalia':
 				cols[i].markdown(f"<div style='text-align: center'> {len(infos['imagens'][i*3+j][1])} </div>", unsafe_allow_html=True)
 	if not st.session_state.reais:
 		st.markdown("Algum dos conjuntos de respostas foi dado por uma máquina?")
-		col1, col2, col3=st.columns(3)
-		cima=col1.button("Sim, a máquina deu as respostas de cima")
-		baixo=col2.button("Sim, a máquina deu as respostas de baixo")
-		nao=col3.button("Não, ambos competidores são humanos")
-		if cima or baixo or nao:
+		cols=st.columns(4)
+		cima=cols[0].button("Sim, a máquina deu as respostas de cima")
+		baixo=cols[1].button("Sim, a máquina deu as respostas de baixo")
+		nao=cols[2].button("Não sei dizer, ambos são indistinguíveis")
+		hum=cols[3].button("Não, ambos competidores são humanos")
+		if cima or baixo or nao or hum:
 			if cima:
 				st.session_state.estado='errado'
 			if baixo:
 				st.session_state.estado='correto'
-			if nao:
+			if nao or hum:
 				st.session_state.estado='nao'
 			st.experimental_rerun()
 
