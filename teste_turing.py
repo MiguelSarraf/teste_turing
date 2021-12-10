@@ -136,35 +136,50 @@ if st.session_state.estado=='teste':
 
 if st.session_state.estado=='modelo':
 	st.subheader("Que modelo é esse?")
-	st.markdown("O modelo utilizado para produzir as classificações das imagens, que é utilizado como competidor no Teste de Turing,"+
-				" é uma representação do funcionamento da mente de uma criança entre 7 e 12 anos.")
-	st.markdown("Os psicólogos e pesquisadores Piaget e Inhelder dividiram o desenvolvimento do pensamento formal da criança em 3 estágios,"+
-				" pré-operatório, operatório-concreto e hipotético-dedutivo. No primeiro, a criança é incapaz de diferenciar as fontes dos estímulos que recebe,"+
-				" portanto falha em qualquer tarefa de classificação. Já no segundo estágio, a criança é capaz de realizar classificações"+
-				" e mapear entradas visuais em modelos mentais. No terceiro, por fim, surge a capacidade de realizar inferências e criar teorias.")
+	st.markdown("No atual estado do desenvolvimento da ciência, diversas disciplinas procuram entender e explicar os"+
+							" processos de aprendizagem, a psicologia, a neurociência e a computação. No entanto, muito pouco foi"+
+							" estudado no intuito de unificar essas visões, que são complementares. Essa percepção motivou"+
+							" a busca de um modelo que provasse que estes campos são unificáveis.")
+	st.markdown("O objetivo do projeto, portanto, foi propor um modelo de aprendizagem computacional, baseado em"+
+							" teorias de psicologia e neurociência, que seja capaz de simular o processo de aprendizagem de uma criança.")
+	st.markdown("Os psicólogos e pesquisadores Piaget e Inhelder dividiram o desenvolvimento do pensamento formal da criança"+
+							" em 3 estágios, pré-operatório, operatório-concreto e hipotético-dedutivo. No primeiro, a criança é incapaz"+
+							" de diferenciar as fontes dos estímulos que recebe, portanto falha em qualquer tarefa de classificação."+
+							" Já no segundo estágio, a criança é capaz de realizar classificações e mapear entradas visuais em modelos"+
+							" mentais. No terceiro, por fim, surge a capacidade de realizar inferências e criar teorias.")
 	st.markdown("Na pesquisa realizada, foram modelados e implementados os dois primeiros estágios mencionados,"+
-				" utilizando como base um modelo representativo do funcionamento fisiológico do cérebro desenvolvido pelo neurocientista Karl Friston."+
-				" O modelo de Friston apresenta finalidades diferentes das desejadas no estudo, por isso ele foi levemente alterado para abarcar o proposto.")
+							" utilizando como base um modelo representativo do funcionamento fisiológico do cérebro desenvolvido pelo"+
+							" neurocientista Karl Friston. O modelo de Friston apresenta finalidades diferentes das desejadas no estudo,"+
+							" por isso ele foi levemente alterado para abarcar o proposto.")
 	col1,col2=st.columns(2)
 	col1.image("./DCM.png")
 	col1.markdown("Modelo proposto por Friston")
 	col2.image("./modelo.png")
 	col2.markdown("Modelo utilizado no projeto")
 	st.markdown("Para cada um dos estágios implementados, esta rede proposta foi altera e reduzida de forma conveniente e"+
-				" transformada em redes neurais, de forma que pudessem ser treinadas para oferecer o resultado esperado. Para treinar esses modelos,"+
-				" foi utilizado um dataset com imagens de dígitos de 0 a 9 escritos à mão que deveriam ser classficados quanto a qual dígito representam."+
-				" Com suficiente tempo de treino, teste e melhoria dos modelos, chegou-se a um estado de representação dos dados e do processo"+
-				" que originou o Teste de Turing aqui mostrado e mostrou a eficiência do método. Abaixo estão postas as matrizes de confusão dos modelos obtidos.")
+							" transformada em redes neurais, de forma que pudessem ser treinadas para oferecer o resultado esperado.")
+	st.markdown("Para treinar esses modelos, foi utilizado um dataset com imagens de dígitos de 0 a 9 escritos à mão que"+
+							" deveriam ser classficados quanto a qual dígito representam. Para melhorar o desempenho da rede final,"+
+							" foi realizado um processo de criação de novos dados a partir dos originais, de forma a aumentar o dataset.")
+	st.markdown("Com suficiente tempo de treino, teste e melhoria dos modelos, chegou-se a um estado de representação dos dados"+
+							" e dos processos mentais que originou o Teste de Turing aqui mostrado e mostrou a eficiência do método."+
+							" Abaixo estão postas as matrizes de confusão dos modelos obtidos para que se evidencie o seu comportamento.")
 	col1,col2=st.columns(2)
 	col1.image("./mc_I.png")
 	col1.markdown("Resultado para o primeiro estágio")
 	col2.image("./mc_II.png")
 	col2.markdown("Resultado para o segundo estágio")
-	st.markdown("Como pode ser visto, a rede do primeiro estágio não consegue fazer nada a não ser chutar todos os números como 1, ou seja,"+
-				" não é capaz de identificar nenhum dígito, como era esperado de acordo com a teoria de Piaget e Inhelder."+
-				" Já a rede do segundo estágio mostra resultados muito fortes, sendo muito acertiva em classficar as imagens do dataset."+
-				" Naturalmente, a rede utilizada para competir no Teste de Turing foi a do segundo estágio.")
-
+	st.markdown("Como pode ser visto, a rede do primeiro estágio não consegue fazer nada a não ser chutar todos os números"+
+							" como 1, ou seja, não é capaz de identificar nenhum dígito, como era esperado de acordo com a teoria de"+
+							" Piaget e Inhelder. Já a rede do segundo estágio mostra resultados muito fortes, sendo muito acertiva em"+
+							" classficar as imagens do dataset. Naturalmente, a rede utilizada para competir no Teste de Turing foi a"+
+							" do segundo estágio.")
+	st.download_button("Baixe aqui o banner do projeto",
+										 data=open("./Banner.pdf", "rb"),
+										 file_name="Banner.pdf")
+	st.download_button("Baixe aqui o press release do projeto",
+										 data=open("./Press_release.pdf", "rb"),
+										 file_name="Press_release.pdf")
 	tt=st.sidebar.button("O que é o teste de Turing?")
 	inicio=st.sidebar.button("Fazer o teste")
 	if tt or inicio:
