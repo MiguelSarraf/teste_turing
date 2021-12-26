@@ -180,6 +180,9 @@ if st.session_state.estado=='modelo':
 	st.download_button("Baixe aqui o press release do projeto",
 										 data=open("./Press_release.pdf", "rb"),
 										 file_name="Press_release.pdf")
+	st.download_button("Baixe aqui a monografia do projeto",
+										 data=open("./Monografia.pdf", "rb"),
+										 file_name="Monografia.pdf")
 	tt=st.sidebar.button("O que é o teste de Turing?")
 	inicio=st.sidebar.button("Fazer o teste")
 	if tt or inicio:
