@@ -184,7 +184,7 @@ if st.session_state.estado=='modelo':
 										 data=open("./monografia.pdf", "rb"),
 										 file_name="monografia.pdf")
 	st.download_button("Baixe aqui a demonstração prática do projeto",
-										 data=open("./demonstracao", "rb"),
+										 data=open("./demonstracao.mp4", "rb"),
 										 file_name="demonstracao.mp4")
 	tt=st.sidebar.button("O que é o teste de Turing?")
 	inicio=st.sidebar.button("Fazer o teste")
