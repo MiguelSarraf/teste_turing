@@ -175,14 +175,17 @@ if st.session_state.estado=='modelo':
 							" classficar as imagens do dataset. Naturalmente, a rede utilizada para competir no Teste de Turing foi a"+
 							" do segundo estágio.")
 	st.download_button("Baixe aqui o banner do projeto",
-										 data=open("./Banner.pdf", "rb"),
-										 file_name="Banner.pdf")
+										 data=open("./banner.pdf", "rb"),
+										 file_name="banner.pdf")
 	st.download_button("Baixe aqui o press release do projeto",
-										 data=open("./Press_release.pdf", "rb"),
-										 file_name="Press_release.pdf")
+										 data=open("./press_release.pdf", "rb"),
+										 file_name="press_release.pdf")
 	st.download_button("Baixe aqui a monografia do projeto",
-										 data=open("./Monografia.pdf", "rb"),
-										 file_name="Monografia.pdf")
+										 data=open("./monografia.pdf", "rb"),
+										 file_name="monografia.pdf")
+	st.download_button("Baixe aqui a demonstração prática do projeto",
+										 data=open("./demonstracao", "rb"),
+										 file_name="demonstracao.mp4")
 	tt=st.sidebar.button("O que é o teste de Turing?")
 	inicio=st.sidebar.button("Fazer o teste")
 	if tt or inicio:
