@@ -1,5 +1,4 @@
 import streamlit as st
-from streamlit.script_runner import RerunException
 import pandas as pd
 import numpy as np
 import time
